@@ -6,8 +6,9 @@ namespace Presentation.Controllers;
 public class LessonsController : BaseApiController
 {
     [HttpGet("id:guid")]
-    public Task<LessonVm> GetById(Guid id)
+    public async Task<ActionResult<LessonVm>> GetById(Guid id)
     {
-        return Mediator.Send(new GetLessonQuery(id));
+        var result = await Mediator.Send(new GetLessonQuery(id));
+        return Ok(result);
     }
 }
