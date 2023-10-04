@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database.Interfaces;
+namespace Application.Interfaces;
 
 public interface IAppDbContext
 {

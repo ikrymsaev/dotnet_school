@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Database.EntityTypeConfigurations;
+namespace Infrastructure.Persistence.EntityTypeConfigurations;
 
 public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
 {

@@ -1,9 +1,9 @@
-﻿using Domain.Entities;
-using Infrastructure.Database.EntityTypeConfigurations;
-using Infrastructure.Database.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities;
+using Infrastructure.Persistence.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Database;
+namespace Infrastructure.Persistence;
 
 public class AppDbContext : DbContext, IAppDbContext
 {

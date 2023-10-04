@@ -1,5 +1,5 @@
-﻿using Domain.Entities;
-using Infrastructure.Database.Interfaces;
+﻿using Application.Interfaces;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Lessons.Commands.CreateLesson;

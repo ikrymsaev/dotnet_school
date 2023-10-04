@@ -1,7 +1,7 @@
-﻿using Application.Shared.Exceptions;
+﻿using Application.Interfaces;
+using Application.Shared.Exceptions;
 using AutoMapper;
 using Domain.Entities;
-using Infrastructure.Database.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

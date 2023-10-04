@@ -2,11 +2,11 @@
 
 namespace Application;
 
-public static class DependencyInjection
+public static class Startup
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        var assembly = typeof(DependencyInjection).Assembly;
+        var assembly = typeof(IServiceCollection).Assembly;
         services.AddMediatR(configuration =>
             configuration.RegisterServicesFromAssembly(assembly));
         
