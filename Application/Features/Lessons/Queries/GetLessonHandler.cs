@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Shared.Exceptions;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Lessons;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonVm>
     {
         var entity = await _dbContext.Lessons.FirstOrDefaultAsync(
             lesson => lesson.Id == request.Id, cancellationToken);
-        if (entity == null || entity.AuthorId != request.AuthorId)
+        if (entity == null)
         {
             throw new NotFoundException(nameof(Lesson), request.Id);
         }

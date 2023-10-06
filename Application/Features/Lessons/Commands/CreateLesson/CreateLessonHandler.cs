@@ -1,22 +1,21 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
+using Domain.Lessons;
 using MediatR;
 
 namespace Application.Features.Lessons.Commands.CreateLesson;
 
-public class CreateLessonHandler : IRequestHandler<CreateLessonCommand, Guid>
+public class CreateLessonHandler : IRequestHandler<CreateLessonCommand, int>
 {
     private readonly IAppDbContext _dbContext;
 
     public CreateLessonHandler(IAppDbContext dbContext) =>
         _dbContext = dbContext;
     
-    public async Task<Guid> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
     {
         var lesson = new Lesson
         {
-            Id = Guid.NewGuid(),
-            AuthorId = request.AuthorId,
+            Id = 1,
             Title = request.Title,
             Description = request.Description
         };

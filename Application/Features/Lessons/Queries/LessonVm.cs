@@ -1,17 +1,18 @@
 ﻿using Application.Shared.Mappings;
 using AutoMapper;
+using Domain.Lessons;
 
 namespace Application.Features.Lessons.Queries;
 
-public class LessonVm : IMapWith<Domain.Entities.Lesson>
+public class LessonVm : IMapWith<Lesson>
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Domain.Entities.Lesson, LessonVm>()
+        profile.CreateMap<Lesson, LessonVm>()
             .ForMember(vm => vm.Title,
                 opt => opt.MapFrom(lesson => lesson.Title))
             .ForMember(vm => vm.Description,
