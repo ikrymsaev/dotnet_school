@@ -4,9 +4,9 @@ export const Layout = () =>  {
 
 return (   
         <>
-             <header className='header'>
+            <header className='header'>
                 <NavLink to='/' > Домашняя страница </NavLink>
-                <NavLink to='listLessons' > Список уроков </NavLink>
+                <NavLink to='lessons' > Список уроков </NavLink>
             </header>
             <main>
                 <Outlet />
