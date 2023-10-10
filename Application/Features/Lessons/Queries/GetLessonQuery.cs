@@ -1,10 +1,11 @@
-﻿using MediatR;
+﻿using Domain.Lessons;
+using MediatR;
 
 namespace Application.Features.Lessons.Queries;
 
-public class GetLessonQuery : IRequest<LessonVm>
+public class GetLessonQuery : IRequest<Lesson>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 
-    public GetLessonQuery(int id) => Id = id;
+    public GetLessonQuery(long id) => Id = id;
 }

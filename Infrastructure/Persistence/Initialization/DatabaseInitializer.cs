@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Infrastructure.Persistence.Initialization;
+﻿namespace Infrastructure.Persistence.Initialization;
 
 public class DatabaseInitializer : IDatabaseInitializer
 {
