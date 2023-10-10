@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Lessons;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Interfaces;
