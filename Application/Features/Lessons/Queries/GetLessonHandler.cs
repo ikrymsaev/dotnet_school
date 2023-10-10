@@ -12,8 +12,11 @@ public class GetLessonHandler : IRequestHandler<GetLessonQuery, Lesson>
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetLessonHandler(IAppDbContext dbContext, IMapper mapper) =>
-        (_dbContext, _mapper) = (dbContext, mapper);
+    public GetLessonHandler(IAppDbContext dbContext, IMapper mapper)
+    {
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
     public async Task<Lesson> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {

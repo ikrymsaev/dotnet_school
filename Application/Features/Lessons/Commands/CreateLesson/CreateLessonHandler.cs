@@ -9,9 +9,6 @@ public class CreateLessonHandler : IRequestHandler<CreateLessonCommand, long>
     private readonly IAppDbContext _dbContext;
 
     public CreateLessonHandler(IAppDbContext dbContext) {
-        Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        Console.WriteLine(dbContext);
-        Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         _dbContext = dbContext;
     }
     

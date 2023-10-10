@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Persistence.Initialization;
 
-public class DatabaseInitializer : IDatabaseInitializer
+public class DatabaseInitializer
 {
-    public async Task InitializeDatabaseAsync(AppDbContext context, CancellationToken cancellationToken)
+    public static void InitializeDatabase(AppDbContext context)
     {
         context.Database.EnsureCreated();
     }
