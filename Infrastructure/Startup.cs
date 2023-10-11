@@ -13,14 +13,13 @@ public static class Startup
             .AddPersistence();
     }
 
-    public static async Task InitializeDatabaseAsync(this IServiceProvider services,
+    public static void InitializeDatabase(this IServiceProvider services,
         CancellationToken cancellationToken = default)
     {
         using var scope = services.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        await scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>()
-            .InitializeDatabaseAsync(context, cancellationToken);
+        DatabaseInitializer.InitializeDatabase(context);
     }
 }

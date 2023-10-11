@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Application.Shared.Mappings;
+namespace Application.Common.Mappings;
 
 public interface IMapWith<T>
 {

@@ -1,16 +1,18 @@
-﻿using Domain.Users;
+﻿using Domain.Common;
+using Domain.Common.Interfaces;
+using Domain.Users;
 
 namespace Domain.Lessons;
 
 /// <summary>
 /// Занятие, включает в себя материалы и задания для выполнения.
 /// </summary>
-public class Lesson
+public class Lesson : BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public List<LessonTag> Tags { get; set; }
+    // Теги для фильтрации.
+    public List<Tag> Tags { get; } = new();
     // Создатель занятия.
     public Teacher Creator { get; set; }
     // Контент занятия.

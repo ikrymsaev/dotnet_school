@@ -19,12 +19,7 @@ public class Course : BaseEntity
     // Список уроков
     public List<Lesson> Lessons { get; set; }
     // Статус
-    public ECourseStatus Status { get; set; }
-
-    public Course(ECourseStatus status = ECourseStatus.Draft)
-    {
-        Status = status;
-    }
+    public ECourseStatus Status { get; set; } = ECourseStatus.Draft;
     
     // Проверяет статус выполнения всех занятий
     public Boolean GetIsCompleted()

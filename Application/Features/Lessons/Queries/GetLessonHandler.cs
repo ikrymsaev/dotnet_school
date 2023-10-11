@@ -7,15 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Lessons.Queries;
 
-public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonVm>
+public class GetLessonHandler : IRequestHandler<GetLessonQuery, Lesson>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetLessonHandler(IAppDbContext dbContext, IMapper mapper) =>
-        (_dbContext, _mapper) = (dbContext, mapper);
+    public GetLessonHandler(IAppDbContext dbContext, IMapper mapper)
+    {
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
-    public async Task<LessonVm> Handle(GetLessonQuery request, CancellationToken cancellationToken)
+    public async Task<Lesson> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Lessons.FirstOrDefaultAsync(
             lesson => lesson.Id == request.Id, cancellationToken);
@@ -24,6 +27,6 @@ public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonVm>
             throw new NotFoundException(nameof(Lesson), request.Id);
         }
 
-        return _mapper.Map<LessonVm>(entity);
+        return entity;
     }
 }

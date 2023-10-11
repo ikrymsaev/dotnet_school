@@ -4,14 +4,15 @@ using MediatR;
 
 namespace Application.Features.Lessons.Commands.CreateLesson;
 
-public class CreateLessonHandler : IRequestHandler<CreateLessonCommand, int>
+public class CreateLessonHandler : IRequestHandler<CreateLessonCommand, long>
 {
     private readonly IAppDbContext _dbContext;
 
-    public CreateLessonHandler(IAppDbContext dbContext) =>
+    public CreateLessonHandler(IAppDbContext dbContext) {
         _dbContext = dbContext;
+    }
     
-    public async Task<int> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
+    public async Task<long> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
     {
         var lesson = new Lesson
         {
