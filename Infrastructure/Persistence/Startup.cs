@@ -19,7 +19,6 @@ internal static class Startup
 
     internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string connectionString)
     {
-        return builder.UseNpgsql(connectionString, e =>
-            e.MigrationsAssembly("Migrations.PostgreSQL"));
+        return builder.UseNpgsql(connectionString);
     }
 }

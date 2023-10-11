@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Persistence.Initialization;
 
-public class DatabaseInitializer
+public static class DatabaseInitializer
 {
     public static void InitializeDatabase(AppDbContext context)
     {
