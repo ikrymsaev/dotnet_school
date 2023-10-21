@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.Lessons.Queries;
 
 /* Получить занятие по Id */
-public record GetLessonQuery(long Id) : IRequest<LessonDto>;
+public record GetLessonQuery(long Id) : IRequest<LessonDto?>;
 
-public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonDto>
+public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonDto?>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -22,15 +22,13 @@ public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonDto>
         _mapper = mapper;
     }
 
-    public async Task<LessonDto> Handle(GetLessonQuery request, CancellationToken cancellationToken)
+    public async Task<LessonDto?> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Lessons.FirstOrDefaultAsync(
             lesson => lesson.Id == request.Id, cancellationToken);
-        if (entity == null)
-        {
-            throw new NotFoundException(nameof(Lesson), request.Id);
-        }
+        if (entity is null) return null;
 
-        return _mapper.Map<LessonDto>(entity);
+        var dto = _mapper.Map<LessonDto>(entity);
+        return dto;
     }
 }

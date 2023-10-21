@@ -23,10 +23,8 @@ public class GetAllTagsQueryHandler : IRequestHandler<GetAllTagsQuery, List<TagD
     public async Task<List<TagDto>> Handle(GetAllTagsQuery query, CancellationToken cancellationToken)
     {
         var result = await _dbContext.Tags.ToListAsync(cancellationToken);
-        
         var tagsList = _mapper.Map<List<Tag>, List<TagDto>>(result);
         
-        Console.WriteLine(tagsList);
         return tagsList;
     }
 }

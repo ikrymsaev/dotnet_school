@@ -30,14 +30,17 @@ public class TagsController : BaseApiController
 
         return Ok(result);
     }
-    
+
     /// <summary>
     /// Создать тэг
     /// </summary>
     [HttpPost()]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<TagDto>> CreateTag([FromBody] CreateTagDto dto) =>
-        CreatedAtAction(nameof(CreateTag), await Mediator.Send(new CreateTagCommand(dto)));
+    public async Task<ActionResult<TagDto>> CreateTag([FromBody] CreateTagDto dto)
+    {
+        var result = await Mediator.Send(new CreateTagCommand(dto));
+        return CreatedAtAction(nameof(CreateTag), result);
+    }
 
     /// <summary>
     /// Редактировать тэг
