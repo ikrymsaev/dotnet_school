@@ -1,5 +1,6 @@
-﻿using Application.Common.Mappings;
-using Application.Features.Lessons.Queries;
+﻿using Application.Common;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,9 @@ public static class Startup
     {
         services
             .AddMediatR(typeof(Startup).Assembly)
-            .AddAutoMapper(typeof(MappingConfig));
+            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddFluentValidationAutoValidation()
+            .AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
         
         return services;
     }
