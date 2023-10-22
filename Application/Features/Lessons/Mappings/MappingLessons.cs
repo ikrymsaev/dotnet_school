@@ -9,6 +9,6 @@ public class MappingLessons : Profile
     public MappingLessons()
     {
         CreateMap<Lesson, LessonDto>().ReverseMap();
-        CreateMap<CreateLessonDto, Lesson>();
+        CreateMap<CreateLessonDto, Lesson>().ReverseMap();
     }
 }

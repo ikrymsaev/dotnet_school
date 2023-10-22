@@ -1,6 +1,7 @@
 ﻿using Application.Features.Lessons.Dto;
 using Application.Interfaces;
 using AutoMapper;
+using Domain.Lessons;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, L
 
         entity.Title = command.LessonDto.Title;
         entity.Description = command.LessonDto.Description;
+        
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<LessonDto>(entity);

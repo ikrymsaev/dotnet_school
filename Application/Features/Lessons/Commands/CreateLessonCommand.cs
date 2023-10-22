@@ -8,6 +8,7 @@ namespace Application.Features.Lessons.Commands;
 
 public record CreateLessonCommand(CreateLessonDto Dto) : IRequest<LessonDto>;
 
+// Обработчик создания нового занятия.
 public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, LessonDto>
 {
     private readonly IAppDbContext _dbContext;
@@ -21,11 +22,14 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, L
 
     public async Task<LessonDto> Handle(CreateLessonCommand command, CancellationToken cancellationToken)
     {
-        var lesson = _mapper.Map<Lesson>(command.Dto);
-        var result = await _dbContext.Lessons.AddAsync(lesson, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        var newLessonModel = new Lesson(
+            command.Dto.Title,
+            command.Dto.Description);
 
-        var dto = _mapper.Map<LessonDto>(result);
+        var result = await _dbContext.Lessons.AddAsync(newLessonModel, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        var dto = _mapper.Map<LessonDto>(result.Entity);
         return dto;
     }
 }

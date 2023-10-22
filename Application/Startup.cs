@@ -1,8 +1,4 @@
 ﻿using Application.Common;
-using Application.Common.Mappings;
-using Application.Features.Tags.Dto;
-using Application.Features.Tags.Validations;
-using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;

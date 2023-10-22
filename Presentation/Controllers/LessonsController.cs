@@ -7,9 +7,11 @@ namespace Presentation.Controllers;
 
 public class LessonsController : BaseApiController
 {
+
     /// <summary>
     /// Получить список занятий
     /// </summary>
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<LessonDto>>> GetLessons()
     {
