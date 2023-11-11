@@ -20,7 +20,7 @@ services:
       - school_net
 
   db_app:
-    image: postgres-latest
+    image: postgres:14.0-alpine
     container_name: db_app
     restart: always
     ports:
