@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Common;
+using Domain.Courses;
 using Domain.Lessons;
 using Infrastructure.Persistence.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ public class AppDbContext : DbContext, IAppDbContext
 {
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<Course> Courses { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options) {}
