@@ -22,3 +22,6 @@
 li {
   font-size: 30px;
 }
+ul {
+  list-style: none;
+}
