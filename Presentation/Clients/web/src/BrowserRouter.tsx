@@ -3,6 +3,7 @@ import { Layout } from "./components/Layout";
 import { Home } from "./Pages/Home";
 import { Lessons } from "./Pages/Lessons";
 import { Lesson } from "./Pages/Lesson";
+import { CreateLesson } from "./Pages/CreateLesson";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       {
         path: 'lesson/:id',
         element: <Lesson />,
+      },
+      {
+        path: 'createlesson',
+        element: <CreateLesson />,
       },
     ]
   }
