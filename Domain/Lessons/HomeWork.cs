@@ -1,11 +1,13 @@
-﻿namespace Domain.Lessons;
+﻿using Domain.Common.Interfaces;
+
+namespace Domain.Lessons;
 
 /// <summary>
 /// Домашнее задание по итогам прохождения занятия.
 /// </summary>
-public class HomeWork
+public class HomeWork : BaseEntity
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     // Текстовое описание домашнего задания
     public string Task { get; set; }
     // Состояние выполения (переключает препод)

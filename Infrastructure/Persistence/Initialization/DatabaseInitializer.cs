@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace Infrastructure.Persistence.Initialization;
 
-namespace Infrastructure.Persistence.Initialization;
-
-public class DatabaseInitializer : IDatabaseInitializer
+public static class DatabaseInitializer
 {
-    public async Task InitializeDatabaseAsync(AppDbContext context, CancellationToken cancellationToken)
+    public static void InitializeDatabase(AppDbContext context)
     {
         context.Database.EnsureCreated();
     }
