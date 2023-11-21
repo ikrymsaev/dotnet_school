@@ -1,5 +1,6 @@
-﻿using Domain.Courses;
+﻿using Domain.Courses.Entities;
 using Domain.Lessons;
+using Domain.Lessons.Entities;
 
 namespace Domain.Users;
 

@@ -10,7 +10,7 @@ public static class Startup
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         return services
-            .AddPersistence();
+            .AddPersistence(config);
     }
 
     public static void InitializeDatabase(this IServiceProvider services,

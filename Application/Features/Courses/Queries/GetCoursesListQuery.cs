@@ -1,7 +1,7 @@
-﻿using Application.Features.Courses.ViewModel;
+﻿using Application.Features.Courses.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
-using Domain.Courses;
+using Domain.Courses.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +22,8 @@ public class GetCoursesListQueryHandler : IRequestHandler<GetCoursesListQuery, L
 
     public async Task<List<CourseVm>> Handle(GetCoursesListQuery request, CancellationToken cancellationToken)
     {
-        var entities = await _dbContext.Courses.ToListAsync(cancellationToken);
+        var entities = await _dbContext.Courses
+            .ToListAsync(cancellationToken);
         var lessonsList = _mapper.Map<List<Course>, List<CourseVm>>(entities);
         
         return lessonsList;

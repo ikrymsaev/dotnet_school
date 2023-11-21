@@ -1,8 +1,8 @@
-﻿using Application.Features.Courses.ViewModel;
+﻿using Application.Features.Courses.Commands.Dto;
+using Application.Features.Courses.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
-using Domain.Courses;
-using Domain.Courses.Dto;
+using Domain.Courses.Entities;
 using MediatR;
 
 namespace Application.Features.Courses.Commands;
@@ -22,7 +22,8 @@ public class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, C
     
     public async Task<CourseVm> Handle(CreateCourseCommand command, CancellationToken cancellationToken)
     {
-        var newCourse = new Course(command.CreateDto);
+        var dto = command.CreateDto;
+        var newCourse = new Course(dto.Title, dto.Description ?? "");
         var result = await _dbContext.Courses.AddAsync(newCourse, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 

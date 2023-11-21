@@ -1,5 +1,6 @@
 ﻿using Application.Common.Exceptions;
-using Application.Features.Lessons.Dto;
+using Application.Features.Lessons.Commands.Dto;
+using Application.Features.Lessons.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Lessons;
@@ -9,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.Lessons.Queries;
 
 /* Получить занятие по Id */
-public record GetLessonQuery(long Id) : IRequest<LessonDto?>;
+public record GetLessonQuery(long Id) : IRequest<LessonInfoVm?>;
 
-public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonDto?>
+public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonInfoVm?>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -22,13 +23,15 @@ public class GetLessonHandler : IRequestHandler<GetLessonQuery, LessonDto?>
         _mapper = mapper;
     }
 
-    public async Task<LessonDto?> Handle(GetLessonQuery request, CancellationToken cancellationToken)
+    public async Task<LessonInfoVm?> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Lessons.FirstOrDefaultAsync(
-            lesson => lesson.Id == request.Id, cancellationToken);
+        var entity = await _dbContext.Lessons
+            .Where(x => x.Id == request.Id)
+            .Include(x => x.Tags)
+            .FirstOrDefaultAsync(cancellationToken);
         if (entity is null) return null;
 
-        var dto = _mapper.Map<LessonDto>(entity);
+        var dto = _mapper.Map<LessonInfoVm>(entity);
         return dto;
     }
 }

@@ -7,6 +7,8 @@ try
     // Add services to the container.
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
+
+    builder.Services.AddCors();
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
@@ -14,6 +16,12 @@ try
 
     var app = builder.Build();
 
+    app.UseCors(policyBuilder => policyBuilder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+    );
+    
     app.Services.InitializeDatabase();
 
     app.UseSwagger();

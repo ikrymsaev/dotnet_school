@@ -1,7 +1,8 @@
 ﻿using Application.Features.Courses.Commands;
+using Application.Features.Courses.Commands.Dto;
 using Application.Features.Courses.Queries;
-using Application.Features.Courses.ViewModel;
-using Domain.Courses.Dto;
+using Application.Features.Courses.Queries.ViewModels;
+using Domain.Courses.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -22,11 +23,9 @@ public class CoursesController : BaseApiController
     /// <summary>
     /// Получить курс
     /// </summary>
-    /// <param name="courseId">ИД курса</param>
-    /// <returns>CourseVm</returns>
     [HttpGet("{courseId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<CourseVm>> GetById(long courseId)
+    public async Task<ActionResult<CourseInfoVm>> GetById(long courseId)
     {
         var result = await Mediator.Send(new GetCourseQuery(courseId));
         
@@ -48,9 +47,6 @@ public class CoursesController : BaseApiController
     /// <summary>
     /// Обновить данные курса
     /// </summary>
-    /// <param name="courseId">ИД курса</param>
-    /// <param name="dto">Данные курса</param>
-    /// <returns>CourseVm</returns>
     [HttpPut("{courseId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<CourseVm>> UpdateCourse(long courseId, [FromBody] CreateCourseDto dto)
@@ -64,8 +60,6 @@ public class CoursesController : BaseApiController
     /// <summary>
     /// Удалить курс
     /// </summary>
-    /// <param name="courseId">ИД курса</param>
-    /// <returns>long courseId</returns>
     [HttpDelete("{courseId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<long>> DeleteCourse(long courseId)
@@ -76,4 +70,42 @@ public class CoursesController : BaseApiController
         return NoContent();
     }
 
+    /// <summary>
+    /// Включить уроки в курс
+    /// </summary>
+    [HttpPost("IncludeLessonsTo/{courseId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<long>>> IncludeLessons(long courseId, [FromBody] List<long> lessonIds)
+    {
+        var result = await Mediator.Send(new IncludeLessonsToCourse(courseId, lessonIds));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
+    
+    /// <summary>
+    /// Исключить уроки из курса
+    /// </summary>
+    [HttpPost("ExcludeLessonsFrom/{courseId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<long>>> ExcludeLessons(long courseId, [FromBody] List<long> lessonIds)
+    {
+        var result = await Mediator.Send(new ExcludeLessonsFromCourse(courseId, lessonIds));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
+    
+    /// <summary>
+    /// Сменить статус курса.
+    /// </summary>
+    [HttpPut("ChangeStatus/{courseId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<ECourseStatus>> ChangeCourseStatus(long courseId, [FromBody] ChangeCourseStatusDto dto)
+    {
+        var result = await Mediator.Send(new ChangeCourseStatusCommand(courseId, dto));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
 }

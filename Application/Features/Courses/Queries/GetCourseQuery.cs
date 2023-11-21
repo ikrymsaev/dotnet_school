@@ -1,5 +1,4 @@
-﻿using Application.Features.Courses.ViewModel;
-using Application.Features.Lessons.Dto;
+﻿using Application.Features.Courses.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
 using MediatR;
@@ -7,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Courses.Queries;
 
-public record GetCourseQuery(long Id) : IRequest<CourseVm>;
+public record GetCourseQuery(long Id) : IRequest<CourseInfoVm?>;
 
-public class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, CourseVm>
+public class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, CourseInfoVm?>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,13 +19,16 @@ public class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, CourseVm>
         _mapper = mapper;
     }
     
-    public async Task<CourseVm> Handle(GetCourseQuery request, CancellationToken cancellationToken)
+    public async Task<CourseInfoVm?> Handle(GetCourseQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Courses.FirstOrDefaultAsync(
-            course => course.Id == request.Id, cancellationToken);
+        var entity = await _dbContext.Courses
+            .Where(x => x.Id == request.Id)
+            .Include(x => x.Lessons)
+            .ThenInclude(l => l.Tags)
+            .FirstOrDefaultAsync(cancellationToken);
         if (entity is null) return null;
 
-        var dto = _mapper.Map<CourseVm>(entity);
+        var dto = _mapper.Map<CourseInfoVm>(entity);
         return dto;
     }
 }

@@ -1,7 +1,9 @@
-﻿using Application.Features.Tags.Dto;
+﻿using Application.Features.Tags.Commands.Dto;
+using Application.Features.Tags.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Common;
+using Domain.Tags.Entities;
 using FluentValidation;
 using MediatR;
 
@@ -11,12 +13,12 @@ namespace Application.Features.Tags.Commands;
 /// Команда для создания тэга
 /// </summary>
 /// <param name="CreateDto">ДТО нового тэга</param>
-public record CreateTagCommand(CreateTagDto CreateDto) : IRequest<TagDto>;
+public record CreateTagCommand(CreateTagDto CreateDto) : IRequest<TagVm>;
 
 /// <summary>
 /// Обработчик создания тэга
 /// </summary>
-public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, TagDto>
+public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, TagVm>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -27,13 +29,13 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, TagDto>
         _mapper = mapper;
     }
 
-    public async Task<TagDto> Handle(CreateTagCommand command, CancellationToken cancellationToken)
+    public async Task<TagVm> Handle(CreateTagCommand command, CancellationToken cancellationToken)
     {
         var tagEntity = _mapper.Map<Tag>(command.CreateDto);
         
         var result = await _dbContext.Tags.AddAsync(tagEntity, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<TagDto>(result.Entity);
+        return _mapper.Map<TagVm>(result.Entity);
     }
 }

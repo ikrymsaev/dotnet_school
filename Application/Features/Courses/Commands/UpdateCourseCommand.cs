@@ -1,8 +1,7 @@
-﻿using Application.Features.Courses.ViewModel;
-using Application.Features.Lessons.Dto;
+﻿using Application.Features.Courses.Commands.Dto;
+using Application.Features.Courses.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
-using Domain.Courses.Dto;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

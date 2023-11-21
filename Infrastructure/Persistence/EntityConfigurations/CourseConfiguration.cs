@@ -1,4 +1,4 @@
-﻿using Domain.Courses;
+﻿using Domain.Courses.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

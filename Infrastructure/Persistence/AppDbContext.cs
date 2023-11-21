@@ -1,7 +1,9 @@
 ﻿using Application.Interfaces;
 using Domain.Common;
-using Domain.Courses;
+using Domain.Courses.Entities;
 using Domain.Lessons;
+using Domain.Lessons.Entities;
+using Domain.Tags.Entities;
 using Infrastructure.Persistence.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +22,7 @@ public class AppDbContext : DbContext, IAppDbContext
     {
         builder.ApplyConfiguration(new TagConfiguration());
         builder.ApplyConfiguration(new LessonConfiguration());
+        builder.ApplyConfiguration(new CourseConfiguration());
         base.OnModelCreating(builder);
     }
 }
