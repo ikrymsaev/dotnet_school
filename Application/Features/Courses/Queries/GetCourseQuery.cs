@@ -24,7 +24,6 @@ public class GetCourseQueryHandler : IRequestHandler<GetCourseQuery, CourseInfoV
         var entity = await _dbContext.Courses
             .Where(x => x.Id == request.Id)
             .Include(x => x.Lessons)
-            .ThenInclude(l => l.Tags)
             .FirstOrDefaultAsync(cancellationToken);
         if (entity is null) return null;
 

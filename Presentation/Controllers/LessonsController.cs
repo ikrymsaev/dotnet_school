@@ -23,13 +23,15 @@ public class LessonsController : BaseApiController
     }
     
     /// <summary>
-    /// Получить занятие id
+    /// Получить занятие по Id
     /// </summary>
-    [HttpGet($"{{{nameof(id)}:long}}")]
+    /// <param name="lessonId">Id занятия</param>
+    /// <returns>Данные занятия</returns>
+    [HttpGet("{lessonId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<LessonInfoVm>> GetById(long id)
+    public async Task<ActionResult<LessonInfoVm>> GetById(long lessonId)
     {
-        var result = await Mediator.Send(new GetLessonQuery(id));
+        var result = await Mediator.Send(new GetLessonQuery(lessonId));
         
         if (result is null) return NotFound();
         return Ok(result);

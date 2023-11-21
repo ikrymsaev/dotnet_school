@@ -23,6 +23,7 @@ public class GetCoursesListQueryHandler : IRequestHandler<GetCoursesListQuery, L
     public async Task<List<CourseVm>> Handle(GetCoursesListQuery request, CancellationToken cancellationToken)
     {
         var entities = await _dbContext.Courses
+            .Include(x => x.Lessons)
             .ToListAsync(cancellationToken);
         var lessonsList = _mapper.Map<List<Course>, List<CourseVm>>(entities);
         
