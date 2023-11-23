@@ -1,4 +1,5 @@
 ﻿using Domain.Lessons;
+using Domain.Lessons.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,10 +20,8 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         builder
             .Property(lesson => lesson.Description)
             .HasMaxLength(500);
-        // Теги занятия
-        builder
-            .HasMany(l => l.Tags)
-            .WithMany(t => t.Lessons)
-            .UsingEntity<LessonTag>();
+        // Статус
+        builder.Property(lesson => lesson.Status)
+            .IsRequired();
     }
 }

@@ -1,15 +1,17 @@
-﻿using Application.Features.Lessons.Dto;
+﻿using Application.Features.Lessons.Commands.Dto;
+using Application.Features.Lessons.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Lessons;
+using Domain.Lessons.Entities;
 using MediatR;
 
 namespace Application.Features.Lessons.Commands;
 
-public record CreateLessonCommand(CreateLessonDto Dto) : IRequest<LessonDto>;
+public record CreateLessonCommand(CreateLessonDto Dto) : IRequest<LessonVm>;
 
 // Обработчик создания нового занятия.
-public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, LessonDto>
+public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, LessonVm>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,7 +22,7 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, L
         _mapper = mapper;
     }
 
-    public async Task<LessonDto> Handle(CreateLessonCommand command, CancellationToken cancellationToken)
+    public async Task<LessonVm> Handle(CreateLessonCommand command, CancellationToken cancellationToken)
     {
         var newLessonModel = new Lesson(
             command.Dto.Title,
@@ -29,7 +31,7 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, L
         var result = await _dbContext.Lessons.AddAsync(newLessonModel, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        var dto = _mapper.Map<LessonDto>(result.Entity);
+        var dto = _mapper.Map<LessonVm>(result.Entity);
         return dto;
     }
 }

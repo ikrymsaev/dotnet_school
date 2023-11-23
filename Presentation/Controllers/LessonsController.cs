@@ -1,6 +1,9 @@
-﻿using Application.Features.Lessons.Commands;
-using Application.Features.Lessons.Dto;
+﻿using Application.Features.Courses.Commands;
+using Application.Features.Lessons.Commands;
+using Application.Features.Lessons.Commands.Dto;
 using Application.Features.Lessons.Queries;
+using Application.Features.Lessons.Queries.ViewModels;
+using Domain.Lessons.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -13,20 +16,22 @@ public class LessonsController : BaseApiController
     /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<LessonDto>>> GetLessons()
+    public async Task<ActionResult<List<LessonVm>>> GetLessons()
     {
         var result = await Mediator.Send(new GetLessonsListQuery());
         return Ok(result);
     }
     
     /// <summary>
-    /// Получить занятие id
+    /// Получить занятие по Id
     /// </summary>
-    [HttpGet($"{{{nameof(id)}:long}}")]
+    /// <param name="lessonId">Id занятия</param>
+    /// <returns>Данные занятия</returns>
+    [HttpGet("{lessonId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<LessonDto>> GetById(long id)
+    public async Task<ActionResult<LessonInfoVm>> GetById(long lessonId)
     {
-        var result = await Mediator.Send(new GetLessonQuery(id));
+        var result = await Mediator.Send(new GetLessonQuery(lessonId));
         
         if (result is null) return NotFound();
         return Ok(result);
@@ -37,7 +42,7 @@ public class LessonsController : BaseApiController
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<LessonDto>> CreateLesson([FromBody] CreateLessonDto dto)
+    public async Task<ActionResult<LessonVm>> CreateLesson([FromBody] CreateLessonDto dto)
     {
         var result = await Mediator.Send(new CreateLessonCommand(dto));
         return CreatedAtAction(nameof(CreateLesson), result);
@@ -48,7 +53,7 @@ public class LessonsController : BaseApiController
     /// </summary>
     [HttpPut("{lessonId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<LessonDto>> UpdateLesson(long lessonId, [FromBody] CreateLessonDto dto)
+    public async Task<ActionResult<LessonVm>> UpdateLesson(long lessonId, [FromBody] CreateLessonDto dto)
     {
         var result = await Mediator.Send(new UpdateLessonCommand(lessonId, dto));
         
@@ -67,5 +72,44 @@ public class LessonsController : BaseApiController
         
         if (result is null) return NotFound();
         return NoContent();
+    }
+
+    /// <summary>
+    /// Прикрепить теги к уроку
+    /// </summary>
+    [HttpPost("AddTagsTo/{lessonId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<long>>> AddTagsTo(long lessonId, [FromBody] List<long> tagIds)
+    {
+        var result = await Mediator.Send(new AddTagsToLessonCommand(lessonId, tagIds));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
+    
+    /// <summary>
+    /// Открепить теги от урока
+    /// </summary>
+    [HttpPost("RemoveTagsFrom/{lessonId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<long>>> RemoveTagsFrom(long lessonId, [FromBody] List<long> tagIds)
+    {
+        var result = await Mediator.Send(new RemoveTagsFromLessonCommand(lessonId, tagIds));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
+    
+    /// <summary>
+    /// Изменить статус урока
+    /// </summary>
+    [HttpPut("ChangeStatus/{lessonId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<ELessonStatus>> ChangeLessonStatus(long lessonId, [FromBody] ChangeLessonStatusDto dto)
+    {
+        var result = await Mediator.Send(new ChangeLessonStatusCommand(lessonId, dto));
+        
+        if (result is null) return NotFound();
+        return Ok(result);
     }
 }

@@ -1,18 +1,21 @@
 ﻿using Application.Interfaces;
 using Infrastructure.Persistence.Initialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Persistence;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddPersistence(this IServiceCollection services)
+    internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
+        var psqlConnect = config["PsqlConnection"];
         return services
             .AddDbContext<AppDbContext>((p, m) =>
             {
-                m.UseDatabase("Host=localhost;Port=5432;Database=school_db;Username=postgres;Password=postgres");
+                if (psqlConnect is null) return;
+                m.UseDatabase(psqlConnect);
             })
             .AddScoped<IAppDbContext>(provider => provider.GetService<AppDbContext>());
     }

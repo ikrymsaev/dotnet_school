@@ -1,15 +1,15 @@
-﻿using Application.Features.Lessons.Dto;
+﻿using Application.Features.Lessons.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
-using Domain.Lessons;
+using Domain.Lessons.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Lessons.Queries;
 
-public record GetLessonsListQuery() : IRequest<List<LessonDto>>;
+public record GetLessonsListQuery() : IRequest<List<LessonVm>>;
 
-public class GetLessonsListQueryHandler : IRequestHandler<GetLessonsListQuery, List<LessonDto>>
+public class GetLessonsListQueryHandler : IRequestHandler<GetLessonsListQuery, List<LessonVm>>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,10 +20,10 @@ public class GetLessonsListQueryHandler : IRequestHandler<GetLessonsListQuery, L
         _mapper = mapper;
     }
 
-    public async Task<List<LessonDto>> Handle(GetLessonsListQuery request, CancellationToken cancellationToken)
+    public async Task<List<LessonVm>> Handle(GetLessonsListQuery request, CancellationToken cancellationToken)
     {
         var entities = await _dbContext.Lessons.ToListAsync(cancellationToken);
-        var lessonsList = _mapper.Map<List<Lesson>, List<LessonDto>>(entities);
+        var lessonsList = _mapper.Map<List<Lesson>, List<LessonVm>>(entities);
         
         return lessonsList;
     }

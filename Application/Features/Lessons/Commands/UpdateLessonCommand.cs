@@ -1,4 +1,5 @@
-﻿using Application.Features.Lessons.Dto;
+﻿using Application.Features.Lessons.Commands.Dto;
+using Application.Features.Lessons.Queries.ViewModels;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Lessons;
@@ -7,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Lessons.Commands;
 
-public record UpdateLessonCommand(long LessonId, CreateLessonDto LessonDto) : IRequest<LessonDto?>;
+public record UpdateLessonCommand(long LessonId, CreateLessonDto LessonDto) : IRequest<LessonVm?>;
 
-public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, LessonDto?>
+public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, LessonVm?>
 {
     private readonly IAppDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,7 +21,7 @@ public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, L
         _mapper = mapper;
     }
 
-    public async Task<LessonDto?> Handle(UpdateLessonCommand command, CancellationToken cancellationToken)
+    public async Task<LessonVm?> Handle(UpdateLessonCommand command, CancellationToken cancellationToken)
     {
         var entity = await _dbContext.Lessons
             .FirstOrDefaultAsync(l => l.Id == command.LessonId, cancellationToken);
@@ -31,6 +32,6 @@ public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, L
         
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<LessonDto>(entity);
+        return _mapper.Map<LessonVm>(entity);
     }
 }
