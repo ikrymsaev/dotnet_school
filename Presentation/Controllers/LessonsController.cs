@@ -1,5 +1,4 @@
-﻿using Application.Features.Courses.Commands;
-using Application.Features.Lessons.Commands;
+﻿using Application.Features.Lessons.Commands;
 using Application.Features.Lessons.Commands.Dto;
 using Application.Features.Lessons.Queries;
 using Application.Features.Lessons.Queries.ViewModels;

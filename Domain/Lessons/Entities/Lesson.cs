@@ -1,8 +1,8 @@
-﻿using Domain.Common;
-using Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 using Domain.Courses.Entities;
 using Domain.Lessons.ValueObjects;
 using Domain.Tags.Entities;
+using Domain.Exams.Entities;
 using Domain.Users;
 
 namespace Domain.Lessons.Entities;
@@ -16,25 +16,24 @@ public class Lesson : BaseEntity
     {
         Title = title;
         Description = description;
-        CreatedAt = new DateTime();
+        CreatedAt = DateTime.Now;
         Status = ELessonStatus.Draft;
     }
 
     public string Title { get; set; }
     public string Description { get; set; }
     public ELessonStatus Status { get; set; }
-    
     // Теги для фильтрации.
     public List<Tag> Tags { get; } = new();
-
+    // Список курсов в которые включен урок.
     public List<Course> Courses { get; } = new();
+    // Список тестов по итогам прохождения занятия.
+    public List<Exam> Exams { get; set; }
     
     // Создатель занятия.
     public Teacher? Creator { get; set; }
     // Контент занятия.
     public Article? Content { get; set; }
-    // Список тестов.
-    public List<Test>? Tests { get; set; }
     // Список домашних заданий.
     public List<HomeWork>? HomeWorks { get; set; }
     
